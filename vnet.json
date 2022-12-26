@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [
+        {
+            "name": "myvnet",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2020-11-01",
+            "location": "eastus2",
+            "tags": {
+                "Env": "nprd",
+                "Subscription": "Development"
+            },
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "192.168.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "myvnet-subnet1",
+                        "properties": {
+                            "addressPrefix": "192.168.1.0/24"
+                        }
+                    },
+                    {
+                        "name": "myvnet-subnet2",
+                        "properties": {
+                            "addressPrefix": "192.168.2.0/24"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {}
+}
