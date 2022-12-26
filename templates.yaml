@@ -1,0 +1,21 @@
+parameters:
+
+- name: subscription_id
+  value: string
+  displayName: "Subscription-id"
+
+- name: storage_account_name
+  value: string
+  displayName: "storage account"
+
+- name: container_name
+  value: string
+  displayName: "blob container"
+
+- name: key
+  value: string
+  displayName: "backend key"
+
+- name: resource_group_name
+  value: string
+

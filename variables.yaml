@@ -1,0 +1,16 @@
+variables:
+
+ - name: subscription_id
+   value: ''
+
+ - name: storage_account_name
+   value: 'mystorage683i9' 
+
+ - name: container_name
+   value: 'tfstorage'
+
+ - name: key
+   value: 'dev-terraform.tfstate'
+
+ - name: resource_group_name
+   value: 'myrsg'

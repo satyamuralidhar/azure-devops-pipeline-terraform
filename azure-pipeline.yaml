@@ -1,0 +1,75 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+variables: 
+- template: variables.yaml
+
+pool:
+  vmImage: ubuntu-latest
+
+stages: 
+- stage: installing_terraform
+  displayName: Install
+  jobs: 
+  - job: install
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: TerraformInstaller@0
+      displayName: Installing terraform binaries
+      inputs:
+        terraformVersion: latest
+
+
+# #init
+    - task: TerraformTaskV2@2
+      displayName: Initializing terraform backend
+      inputs:
+        provider: azurerm
+        command: init
+        backendServiceArm: ${{ variables.subscription_id }}
+        environmentServiceNameAzureRM: terrafromsvcconnection
+        backendAzureRmResourceGroupName: ${{ variables.resource_group_name }}
+        backendAzureRmStorageAccountName: ${{ variables.storage_account_name }}
+        backendAzureRmContainerName: ${{ variables.container_name }}
+        backendAzureRmKey: ${{ variables.key }}
+
+  #validation
+    - task: TerraformTaskV2@2
+      displayName: Validating Terraform code
+      inputs:
+        provider: azurerm
+        command: validate
+        environmentServiceNameAzureRM: terrafromsvcconnection
+  
+  #plan
+  
+    - task: TerraformTaskV2@2
+      displayName: Planning Terraform 
+      inputs:
+        provider: azurerm
+        command: plan
+        environmentServiceNameAzureRM: terrafromsvcconnection
+  
+  #apply
+
+    - task: TerraformTaskV2@2
+      displayName: Applying terraform 
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        environmentServiceNameAzureRM: terrafromsvcconnection
+  
+  #destroy
+    - task: TerraformTaskV2@2
+      displayName: Distorying Terraform
+      inputs:
+        provider: 'azurerm'
+        command: destroy
+        environmentServiceNameAzureRM: terrafromsvcconnection
+    
